@@ -1,7 +1,7 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
@@ -19,14 +19,23 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            entry_point: App\Security\AppAuthenticator
             custom_authenticator: App\Security\AppAuthenticator
+
+            # Ajout de la configuration du formulaire
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: admin_dashboard
+
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_home
 
             remember_me:
-                secret: '%kernel.secret%'
+                secret: "%kernel.secret%"
                 lifetime: 604800
                 path: /
                 # by default, the feature is enabled by checking a checkbox in the
@@ -41,7 +50,8 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/staff, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
