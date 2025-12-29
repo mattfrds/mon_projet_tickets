@@ -21,37 +21,35 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // 1. Créer les catégories (Suppression de setCreatedAt)
+        // 1. Créer les différentes catégories 
         $categories = ['Incident', 'Panne', 'Évolution', 'Anomalie', 'Information'];
         $categoryObjects = [];
         
         foreach ($categories as $catName) {
             $category = new Category();
             $category->setName($catName);
-            // La ligne problématique a été retirée ici
             $manager->persist($category);
             $categoryObjects[] = $category;
         }
 
-        // 2. Créer les statuts (Suppression de setCreatedAt)
+        // 2. Créer les statuts
         $statuses = ['Nouveau', 'Ouvert', 'Résolu', 'Fermé'];
         $statusObjects = [];
         
         foreach ($statuses as $statusName) {
             $status = new Status();
             $status->setName($statusName);
-            // La ligne problématique a été retirée ici
             $manager->persist($status);
             $statusObjects[] = $status;
         }
 
         // 3. Créer l'administrateur
         $admin = new User();
-        $admin->setEmail('admin@agence.fr');
+        $admin->setEmail('admin@tickets.fr');
         $admin->setFirstName('Admin');
         $admin->setLastName('Principal');
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'Admin2024!'));
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'SorbetCitron!2025'));
         $manager->persist($admin);
 
         // 4. Créer des utilisateurs staff
