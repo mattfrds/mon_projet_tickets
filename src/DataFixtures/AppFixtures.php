@@ -21,31 +21,31 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // Créer les catégories
+        // 1. Créer les catégories (Suppression de setCreatedAt)
         $categories = ['Incident', 'Panne', 'Évolution', 'Anomalie', 'Information'];
         $categoryObjects = [];
         
         foreach ($categories as $catName) {
             $category = new Category();
             $category->setName($catName);
-            $category->setCreatedAt(new \DateTimeImmutable());
+            // La ligne problématique a été retirée ici
             $manager->persist($category);
             $categoryObjects[] = $category;
         }
 
-        // Créer les statuts
+        // 2. Créer les statuts (Suppression de setCreatedAt)
         $statuses = ['Nouveau', 'Ouvert', 'Résolu', 'Fermé'];
         $statusObjects = [];
         
         foreach ($statuses as $statusName) {
             $status = new Status();
             $status->setName($statusName);
-            $status->setCreatedAt(new \DateTimeImmutable());
+            // La ligne problématique a été retirée ici
             $manager->persist($status);
             $statusObjects[] = $status;
         }
 
-        // Créer l'administrateur
+        // 3. Créer l'administrateur
         $admin = new User();
         $admin->setEmail('admin@agence.fr');
         $admin->setFirstName('Admin');
@@ -54,7 +54,7 @@ class AppFixtures extends Fixture
         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'Admin2024!'));
         $manager->persist($admin);
 
-        // Créer des utilisateurs du personnel
+        // 4. Créer des utilisateurs staff
         $users = [];
         for ($i = 1; $i <= 3; $i++) {
             $user = new User();
@@ -67,19 +67,14 @@ class AppFixtures extends Fixture
             $users[] = $user;
         }
 
-        // Créer des tickets de démonstration
-        $clientEmails = [
-            'client1@example.com',
-            'client2@example.com',
-            'client3@example.com'
-        ];
-
+        // 5. Créer des tickets de démonstration
+        $clientEmails = ['client1@example.com', 'client2@example.com', 'client3@example.com'];
         $descriptions = [
-            'Le site web ne se charge pas correctement sur mobile. Les images sont déformées et le menu ne fonctionne pas.',
-            'Demande d\'ajout d\'une fonctionnalité de recherche avancée avec filtres multiples pour améliorer l\'expérience utilisateur.',
-            'Le formulaire de contact renvoie une erreur 500 lorsqu\'on essaie de l\'envoyer. Urgent car c\'est notre principal canal.',
-            'Les couleurs du thème ne correspondent pas à notre charte graphique. Il faudrait ajuster les teintes de bleu.',
-            'Le temps de chargement des pages est très long (plus de 10 secondes). Peut-on optimiser les performances ?'
+            'Le site web ne se charge pas correctement sur mobile.',
+            'Demande d\'ajout d\'une fonctionnalité de recherche.',
+            'Erreur 500 sur le formulaire de contact.',
+            'Les couleurs ne correspondent pas à la charte.',
+            'Temps de chargement trop long.'
         ];
 
         for ($i = 0; $i < 10; $i++) {
@@ -90,12 +85,10 @@ class AppFixtures extends Fixture
             $ticket->setStatus($statusObjects[0]); // Nouveau
             $ticket->setOpenedAt(new \DateTimeImmutable('-' . rand(1, 30) . ' days'));
             
-            // Assigner un responsable aléatoirement
             if (rand(0, 1)) {
                 $ticket->setResponsible($users[array_rand($users)]);
             }
             
-            // Clôturer certains tickets
             if (rand(0, 3) === 0) {
                 $ticket->setStatus($statusObjects[3]); // Fermé
                 $ticket->setClosedAt(new \DateTimeImmutable('-' . rand(1, 10) . ' days'));

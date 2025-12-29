@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\StatusRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,6 +20,12 @@ class Status
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+{
+    $this->createdAt = new \DateTimeImmutable();
+    $this->tickets = new ArrayCollection(); 
+}
 
     public function getId(): ?int
     {
@@ -47,4 +55,6 @@ class Status
 
         return $this;
     }
+
+    
 }

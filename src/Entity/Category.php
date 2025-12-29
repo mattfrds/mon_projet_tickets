@@ -21,15 +21,12 @@ class Category
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-    /**
-     * @var Collection<int, Ticket>
-     */
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'category')]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Ticket::class)]
     private Collection $tickets;
 
     public function __construct()
     {
-        // Automatically set creation date
+        // On initialise la date ET la collection de tickets
         $this->createdAt = new \DateTimeImmutable();
         $this->tickets = new ArrayCollection();
     }
@@ -47,13 +44,18 @@ class Category
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 
     /**
@@ -70,19 +72,16 @@ class Category
             $this->tickets->add($ticket);
             $ticket->setCategory($this);
         }
-
         return $this;
     }
 
     public function removeTicket(Ticket $ticket): static
     {
         if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
             if ($ticket->getCategory() === $this) {
                 $ticket->setCategory(null);
             }
         }
-
         return $this;
     }
 }
