@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la Catégorie{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Modifier la Catégorie : {{ category.name }}</h1>
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-primary mt-3">Mettre à jour</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('admin_categories') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+        
+        <div class="mt-5 p-3 border-top text-danger">
+            <h5>Zone critique</h5>
+            {{ include('admin/categories/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

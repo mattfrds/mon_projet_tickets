@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Ticket #{{ ticket.id }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+       <h1>Détails du Ticket #{{ ticket.id }}</h1>
+<p><strong>Description :</strong> {{ ticket.description }}</p>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <p><strong>Description :</strong> {{ ticket.description }}</p>
+                <p><strong>Statut :</strong> <span class="badge bg-info">{{ ticket.status.name }}</span></p>
+                <p><strong>Catégorie :</strong> {{ ticket.category.name }}</p>
+                <p><strong>Créé le :</strong> {{ ticket.openedAt|date('d/m/Y H:i') }}</p>
+                
+                {% if ticket.closedAt %}
+                    <p><strong>Clôturé le :</strong> {{ ticket.closedAt|date('d/m/Y H:i') }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('admin_tickets') }}" class="btn btn-secondary">Retour à la liste</a>
+            <a href="{{ path('admin_ticket_edit', {'id': ticket.id}) }}" class="btn btn-warning">Modifier</a>
+        </div>
+    </div>
+{% endblock %}
