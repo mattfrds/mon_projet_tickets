@@ -9,14 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/staff')]
 #[IsGranted('ROLE_USER')]
 class StaffController extends AbstractController
 {
-    #[Route('/', name: 'staff_dashboard')]
+    #[Route('', name: 'staff_dashboard')] 
     public function index(TicketRepository $ticketRepository): Response
     {
         $tickets = $ticketRepository->findBy([], ['openedAt' => 'DESC']);

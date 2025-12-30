@@ -59,7 +59,6 @@ class UserType extends AbstractType
             ])
         ;
 
-        // Hasher le mot de passe avant la soumission
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $user = $event->getData();
             $form = $event->getForm();

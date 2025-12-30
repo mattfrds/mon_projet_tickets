@@ -49,18 +49,18 @@ class AppFixtures extends Fixture
         $admin->setFirstName('Admin');
         $admin->setLastName('Principal');
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'SorbetCitron!2025'));
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'SorbetCitron2025!'));
         $manager->persist($admin);
 
-        // 4. Créer des utilisateurs staff
+        // 4. Créer des utilisateurs
         $users = [];
         for ($i = 1; $i <= 3; $i++) {
             $user = new User();
-            $user->setEmail("user{$i}@agence.fr");
+            $user->setEmail("user{$i}@tickets.fr");
             $user->setFirstName("Employé");
             $user->setLastName("N°{$i}");
             $user->setRoles(['ROLE_USER']);
-            $user->setPassword($this->passwordHasher->hashPassword($user, 'User2024!'));
+            $user->setPassword($this->passwordHasher->hashPassword($user, 'User2025!'));
             $manager->persist($user);
             $users[] = $user;
         }

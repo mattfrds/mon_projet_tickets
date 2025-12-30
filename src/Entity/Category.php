@@ -26,7 +26,7 @@ class Category
 
     public function __construct()
     {
-        // On initialise la date ET la collection de tickets
+        // On initialise la date et la collection de tickets
         $this->createdAt = new \DateTimeImmutable();
         $this->tickets = new ArrayCollection();
     }
